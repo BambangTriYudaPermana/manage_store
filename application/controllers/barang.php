@@ -53,7 +53,7 @@ class Barang extends CI_Controller
 		$this->load->view('layout/footer', $this->data);
 	}
 
-	function save(){
+	function save($id_barang = null,$status = null){
 		// cek pelanggan
 		$this->load->model("pelanggan_model");
 		$nama_pelanggan		= $this->input->post('nama_pelanggan');
@@ -86,7 +86,14 @@ class Barang extends CI_Controller
 			'created_date'	=> date('Y-m-d h:i:s')
 		);
 
-		$insert_barang = $this->barang_model->insertBarang($data_barang);
+		if (isset($status)) {
+			$condition['id_barang']		=	$id_barang;
+			$insert_barang 				= 	$this->barang_model->updateBarang($data_barang,$condition);
+		}else{
+			$insert_barang = $this->barang_model->insertBarang($data_barang);
+		}
+
+		
 
 		$status_result = [
 			'title'	=> 'Berhasil!!!',
