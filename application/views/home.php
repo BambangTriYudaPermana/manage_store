@@ -1,0 +1,1 @@
+Silahkan Login dengan menekekan halaman! <?php echo anchor('/auth/login/', 'Login'); ?> 
