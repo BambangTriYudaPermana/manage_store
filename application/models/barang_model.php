@@ -11,6 +11,11 @@
 			$this->db->join('pelanggan','barang.id_pelanggan=pelanggan.id_pelanggan');
 			$this->db->where(['id_barang' => $id]);
 			return $this->db->get();
+		}
+		function getBarangByIdPelanggan($id,$start_date,$end_date){
+			$this->db->from('barang');
+			$this->db->where(['id_pelanggan' => $id, 'status' => 'booked', 'tgl_booked >' => $start_date, 'tgl_booked <' => $end_date]);
+			return $this->db->get();
         }
         function getBarangByStatus($status){
 			return $this->db->get_where('barang',['status' => $status]);
@@ -29,6 +34,7 @@
 		function getDetailAllBarang(){
 			$this->db->from('barang');
 			$this->db->join('pelanggan','barang.id_pelanggan=pelanggan.id_pelanggan');
+			$this->db->where(['status' => 'booked']);
 			$this->db->order_by('id_barang','DESC');
 			return $this->db->get();
 		}

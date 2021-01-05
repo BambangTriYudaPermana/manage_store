@@ -49,42 +49,45 @@
                                 </div> -->
                                 <div class="card-block">
                                     <h4 class="sub-title">Data Barang</h4>
-                                    <table class="table table-striped table-bordered table-check" id="myTable">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Pelanggan</th>
-                                                <th>Nama Barang</th>
-                                                <th>Qty</th>
-                                                <th>Tanggal Booked</th>
-                                                <th>Total Harga (Rupiah)</th>
-                                                <th>Status</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                    <?php
-                                    $no=1;
-                                        foreach ($data->result() as $key => $value) {
-                                    ?>
-                                            <tr>
-                                                <td><?=$no?></td>
-                                                <td><?=$value->nama_pelanggan?></td>
-                                                <td><?=$value->nama_barang?></td>
-                                                <td><?=$value->qty?> Pcs</td>
-                                                <td><?=$value->tgl_booked?></td>
-                                                <td style="text-align: right;"><?=number_format($value->harga)?></td>
-                                                <td><?=$value->status?></td>
-                                                <td>
-                                                    <a href="<?=base_url('barang/update').'/'.$value->id_barang?>" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-                                    <?php
-                                    $no++;
-                                        }
-                                    ?>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-check" id="myTable" style="font-size:9pt">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Nama Pelanggan</th>
+                                                    <th>Nama Barang</th>
+                                                    <th>Qty</th>
+                                                    <th>Tanggal Booked</th>
+                                                    <th>Total Harga</th>
+                                                    <th>Status</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                        <?php
+                                        $no=1;
+                                            foreach ($data->result() as $key => $value) {
+                                        ?>
+                                                <tr>
+                                                    <td><?=$no?></td>
+                                                    <td><?=$value->nama_pelanggan?></td>
+                                                    <td><?=$value->nama_barang?></td>
+                                                    <td><?=$value->qty?> Pcs</td>
+                                                    <td><?=$value->tgl_booked?></td>
+                                                    <td style="text-align: right;"><?=number_format($value->harga)?></td>
+                                                    <td><?=$value->status?></td>
+                                                    <td>
+                                                        <a href="<?=base_url('barang/update').'/'.$value->id_barang?>" class="btn btn-primary btn-sm" title="Edit"><i class="fa fa-pencil"></i>Update</a>
+                                                        <a href="javascript:void(0)" onclick="delete_barang('<?=$value->id_barang?>')" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash"></i>Delete</a>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                        $no++;
+                                            }
+                                        ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <span><hr/></span>
                                 <div class="card-footer">
@@ -108,4 +111,28 @@
 $(document).ready(function(){
     $('#myTable').DataTable();
 });
+
+function delete_barang(id_barang){
+    swal({
+        title: "Apakah anda yakin akan menghapus data ini?",
+        text: "Harap pastikan kembali!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((ya) => {
+        if (ya) {
+            $.ajax({
+                type: "POST",
+                url: '<?=base_url()?>' + "barang/delete/" + id_barang,
+                success: function(result){
+                    swal("Berhasil!!!", "Data berhasil Dihapus..", "success");
+                    window.location.href = '<?=base_url()?>' + "barang/"
+                },error: function() {
+                    swal("Oops...", "Terjadi kesalahan saat proses data", "error");
+                }
+            });// you have missed this bracket
+            
+        }
+    });
+}
 </script>

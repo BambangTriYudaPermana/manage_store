@@ -53,7 +53,7 @@ class Barang extends CI_Controller
 		$this->load->view('layout/footer', $this->data);
 	}
 
-	function save(){
+	function save_add(){
 		// cek pelanggan
 		$this->load->model("pelanggan_model");
 		$nama_pelanggan		= $this->input->post('nama_pelanggan');
@@ -110,6 +110,8 @@ class Barang extends CI_Controller
 		$this->data['tgl_booked'] 		= $data->tgl_booked;
 		$this->data['status'] 			= $data->status;
 
+		$this->data['id_barang'] 		= $id;
+
 		$this->data['aksi'] = "update";
 
 		$this->load->view('layout/header', $this->data);
@@ -157,13 +159,20 @@ class Barang extends CI_Controller
 
 		$status_result = [
 			'title'	=> 'Berhasil!!!',
-			'text'	=> 'Data berhasil Diinputkan..',
+			'text'	=> 'Data berhasil Diubah..',
 			'status'=> 'success'
 		];
 
 		$res = json_encode($status_result);
 		echo $res;
 		// return $res;
+	}
+
+	public function delete($id_barang){
+		$condition['id_barang']	= $id_barang;
+		
+		$this->barang_model->deleteBarang($condition);
+		// redirect('kategori');
 	}
 
 

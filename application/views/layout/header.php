@@ -24,6 +24,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/files/bower_components/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/files/assets/icon/font-awesome/css/font-awesome.min.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/files/assets/icon/icofont/css/icofont.css">
     <!-- feather Awesome -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/files/assets/icon/feather/css/feather.css">
     <!-- Style.css -->

@@ -128,10 +128,11 @@
 <script>
     var aksi = '<?=$aksi?>';
     var aksi_url = "";
+    var id_barang = '<?= isset($id_barang) ? $id_barang : '' ?>';
     if (aksi == "add") {
-        aksi_url = '<?=base_url()?>' + "barang/save";
+        aksi_url = '<?=base_url()?>' + "barang/save_add";
     }else{
-        aksi_url = '<?=base_url()?>' + "barang/update";
+        aksi_url = '<?=base_url()?>' + "barang/save_update/" + id_barang;
     }
 
     function SaveForm() {
@@ -164,7 +165,7 @@
                         },success: function(result){
                             if (aksi == "add") {
                                 swal("Berhasil!!!", "Data berhasil Diinputkan..", "success");
-                                location.reload();
+                                window.location.href = '<?=base_url()?>' + "barang/"
                             }else{
                                 swal("Berhasil!!!", "Data berhasil Diubah..", "success");
                                 setTimeout('', 5000);
