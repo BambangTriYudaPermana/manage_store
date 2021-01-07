@@ -71,7 +71,7 @@
                                     </a>
                                 </li>
                                 <li id="print_invoice">
-                                    <a href="<?=site_url('dashboard')?>">
+                                    <a href="<?=site_url('print_invoice')?>">
                                         <span class="pcoded-micon"><i class="fa fa-print"></i></span>
                                         <span class="pcoded-mtext">Print Invoice</span>
                                     </a>

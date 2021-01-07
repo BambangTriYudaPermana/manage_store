@@ -31,10 +31,10 @@
 			$this->db->where($condition);
 			$this->db->delete('barang');
 		}
-		function getDetailAllBarang(){
+		function getDetailAllBarangbyStatus($status){
 			$this->db->from('barang');
 			$this->db->join('pelanggan','barang.id_pelanggan=pelanggan.id_pelanggan');
-			$this->db->where(['status' => 'booked']);
+			$this->db->where(['status' => "'".$status."'"]);
 			$this->db->order_by('id_barang','DESC');
 			return $this->db->get();
 		}

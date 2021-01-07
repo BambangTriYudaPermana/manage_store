@@ -308,11 +308,11 @@ function checkout_barang(id_barang = null,status = null){
                 },
                 success: function(result){
                     swal("Berhasil!!!", "Data berhasil Checkout..", "success");
-                    if (status == "all") {
-                        window.location.href = '<?=base_url()?>' + "checkout_barang/"
-                    }else{
-                        location.reload();
-                    }
+                    // if (status == "all") {
+                    //     window.location.href = '<?=base_url()?>' + "checkout_barang/"
+                    // }else{
+                    //     location.reload();
+                    // }
                 },error: function() {
                     swal("Oops...", "Terjadi kesalahan saat proses data", "error");
                 }

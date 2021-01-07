@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Checkout_barang extends CI_Controller
+class Print_invoice extends CI_Controller
 {
 	function __construct() {
 		parent::__construct();
@@ -22,7 +22,7 @@ class Checkout_barang extends CI_Controller
 				$this->data['full_name_role'] = $val['full'];
 			}
 			
-			$this->data['link_active']	= 'checkout_barang';
+			$this->data['link_active']	= 'print_invoice';
 					
 			// if (!$this->tank_auth->permit($this->data['link_active'])) {
 			// 	redirect('dashboard');
@@ -31,7 +31,7 @@ class Checkout_barang extends CI_Controller
 			$this->load->model("showmenu_model");
 			$this->data['ShowMenu'] = $this->showmenu_model->getShowMenu();
 			
-			$this->load->model(["checkout_barang_model","barang_model","pelanggan_model","transaksi_model","catatan_model"]);
+			$this->load->model(["checkout_barang_model","transaksi_model"]);
 		}		
 	}
 
@@ -42,9 +42,9 @@ class Checkout_barang extends CI_Controller
 		
 
 		if ($this->input->post()) {
-			$this->data['data'] = $this->checkout_barang_model->getAllBarang($start_date,$end_date);
+			$this->data['data'] = $this->checkout_barang_model->getAllBarang($start_date,$end_date,"checkout");
 		}else{
-			$this->data['data'] = $this->checkout_barang_model->getAllBarang($start_date,$end_date);
+			$this->data['data'] = $this->checkout_barang_model->getAllBarang($start_date,$end_date,"checkout");
 		}
 
 		if ($start_date > $end_date) {
@@ -56,22 +56,21 @@ class Checkout_barang extends CI_Controller
 		
 		$this->load->view('layout/header', $this->data);
 		$this->load->view('layout/nav_left', $this->data);
-		$this->load->view('checkout_barang/index', $this->data);
+		$this->load->view('print_invoice/index', $this->data);
 		$this->load->view('layout/footer', $this->data);
 	}
 
-	function detail($id_pelanggan,$start_date,$end_date){
-
-		$this->data['data_barang'] = $this->barang_model->getBarangByIdPelanggan($id_pelanggan,$start_date,$end_date);
-		$pelanggan = $this->pelanggan_model->getPelangganById($id_pelanggan)->row();
-		$this->data['nama_pelanggan'] = $pelanggan->nama_pelanggan;
-
-		$this->data['start_date'] = $start_date;
-		$this->data['end_date'] = $end_date;
+	function detail($id_catatan){
+		$this->data['data_barang'] = $this->transaksi_model->getDetailTransaksi($id_catatan);
+		$detail_order = $this->transaksi_model->getTransaksiOne($id_catatan)->row();
+		$this->data['nama_pelanggan'] = $detail_order->nama_pelanggan;
+		$this->data['ttl_berat'] = $detail_order->ttl_berat;
+		$this->data['catatan'] = $detail_order->catatan;
+		$this->data['link'] = $detail_order->link;
 
 		$this->load->view('layout/header', $this->data);
 		$this->load->view('layout/nav_left', $this->data);
-		$this->load->view('checkout_barang/checkout', $this->data);
+		$this->load->view('print_invoice/print_invoice', $this->data);
 		$this->load->view('layout/footer', $this->data);
 	}
 
@@ -104,7 +103,6 @@ class Checkout_barang extends CI_Controller
 			$data_transaksi = array(
 				'id_barang'		=> $value,
 				'id_catatan'	=> $get_last_id->id_catatan,
-				'tgl_checkout'	=> date('Y-m-d'),
 				'created_date'	=> date('Y-m-d h:i:s'),
 			);
 

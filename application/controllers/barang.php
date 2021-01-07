@@ -36,7 +36,7 @@ class Barang extends CI_Controller
 	}
 
 	function index() {
-        $this->data['data'] = $this->barang_model->getDetailAllBarang();
+        $this->data['data'] = $this->barang_model->getDetailAllBarangbyStatus('booked');
 		
 		$this->load->view('layout/header', $this->data);
 		$this->load->view('layout/nav_left', $this->data);

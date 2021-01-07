@@ -17,5 +17,10 @@
 			$this->db->where($condition);
 			$this->db->delete('catatan');
 		}
+		function getIdLast(){
+			$this->db->from('catatan');
+			$this->db->order_by('id_catatan','DESC');
+			return $this->db->get();
+		}
 	}
 ?>
